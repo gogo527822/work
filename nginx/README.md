@@ -14,5 +14,7 @@ docker run -d -p 8080:80 nginx
 
 curl http://localhost:8080/sre.txt
 # work
-![nginx](https://github.com/user-attachments/assets/fee6d05d-bb34-487a-8aac-2b013c50711c)
+
+
+![nginx](https://github.com/user-attachments/assets/f006e0b9-a23b-4681-9752-9a434f8fe3ac)
 
