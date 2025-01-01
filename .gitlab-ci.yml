@@ -1,0 +1,26 @@
+stages:
+  - build
+  - push
+  - deploy
+
+variables:
+  IMAGE_NAME: nginx
+
+build:
+  stage: build
+  script:
+    - docker build -t $IMAGE_NAME:$CI_COMMIT_SHA .
+    - docker tag $IMAGE_NAME:$CI_COMMIT_SHA $IMAGE_NAME:latest
+
+push:
+  stage: push
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    - docker push $IMAGE_NAME:$CI_COMMIT_SHA
+    - docker push $IMAGE_NAME:latest
+
+deploy:
+  stage: deploy
+  script:
+    # 更新 Helm Release 部署最新映像檔
+    - helm upgrade nginx-release bitnami/nginx --set image.repository=$IMAGE_NAME --set image.tag=latest
